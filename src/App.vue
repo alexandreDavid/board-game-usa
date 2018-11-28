@@ -1,17 +1,29 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Grid :players="players" />
+    <PlayersControl :players="players" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Grid from '@/components/Grid.vue'
+import PlayersControl from '@/components/PlayersControl.vue'
+import Player from '@/player'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Grid,
+    PlayersControl
+  },
+  data () {
+    return {
+      players: []
+    }
+  },
+  created () {
+    this.players.push(new Player('Payer 1', {line: 1, col: 0}, 'red'))
+    this.players.push(new Player('Payer 2', {line: 3, col: 0}, 'blue'))
   }
 }
 </script>
@@ -23,6 +35,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
