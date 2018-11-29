@@ -14,6 +14,18 @@ export default class Player {
   getPos () {
     return this.pos
   }
+  up () {
+    this.pos.line--
+  }
+  down () {
+    this.pos.line++
+  }
+  left () {
+    this.pos.col--
+  }
+  right () {
+    this.pos.col++
+  }
   getTilesMove () {
     const curLine = this.pos.line
     const curCol = this.pos.col

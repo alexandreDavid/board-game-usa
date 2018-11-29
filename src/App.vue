@@ -22,8 +22,8 @@ export default {
     }
   },
   created () {
-    this.players.push(new Player('Payer 1', {line: 1, col: 0}, 'red'))
-    this.players.push(new Player('Payer 2', {line: 3, col: 0}, 'blue'))
+    this.players.push(new Player('Player 1', {line: 1, col: 0}, 'red'))
+    this.players.push(new Player('Player 2', {line: 3, col: 0}, 'blue'))
   }
 }
 </script>
