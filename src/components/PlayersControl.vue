@@ -1,7 +1,13 @@
 <template>
   <div class="players-control">
+    {{ lastEndTourAction }}
     <div class="player-control" v-for="(player, key) in players" :key="key" v-bind:class="{active: activePlayerIdx === key}">
-      <h1>{{ player.name }}</h1>
+      <h3>{{ player.name }}</h3>
+      <div>
+        <div>Life points: {{ player.life }}</div>
+        <div>Bullets number: {{ player.bullets }}</div>
+        <div>Gold: {{ player.gold }}</div>
+      </div>
       <div v-if="activePlayerIdx === key">
         <span>Actions left: {{ actionsLeft }} </span>
         <button @click="setAction('up')">Up</button>
@@ -17,6 +23,8 @@
 </template>
 
 <script>
+import EndTourCard from '@/endTourCard'
+
 const actionsPerTour = 3
 
 export default {
@@ -27,7 +35,8 @@ export default {
   data () {
     return {
       activePlayerIdx: 0,
-      actionsLeft: actionsPerTour
+      actionsLeft: actionsPerTour,
+      lastEndTourAction: false
     }
   },
   methods: {
@@ -52,11 +61,10 @@ export default {
       }
     },
     finishActions () {
+      const card = EndTourCard.getCard(this.players[this.activePlayerIdx])
+      this.lastEndTourAction = card.callback && card.callback(this.players[this.activePlayerIdx])
       this.actionsLeft = actionsPerTour
-      console.log(this.activePlayerIdx === this.players.length - 1)
-      console.log(this.activePlayerIdx)
       this.activePlayerIdx = (this.activePlayerIdx === this.players.length - 1) ? 0 : this.activePlayerIdx + 1
-      console.log(this.activePlayerIdx)
     }
   }
 }
