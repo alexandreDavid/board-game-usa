@@ -1,43 +1,77 @@
-const firstLevelCards = [
+const allCards = [
   {
     name: 'trade',
-    frequency: 0.2,
     callback: function () {
       return 'Trade'
     }
   }, {
     name: 'rabbit',
-    frequency: 0.3,
     callback: function (player) {
       player.incrementLife(1)
       return 'Rabbit: life + 1'
     }
   }, {
     name: 'bullet',
-    frequency: 0.2,
     callback: function (player) {
       player.incrementBullets(2)
       return 'Bullets found +2'
     }
   }, {
     name: 'wolf',
-    frequency: 0.2,
     callback: function (player) {
-      if (player.bullets < 1) {
+      if (player.bullets < 2) {
         player.decrementLife(2)
         return 'Wolf, not enough bullets to kill it life -2'
       }
-      player.decrementBullets(1)
+      player.decrementBullets(2)
       player.incrementGold(1)
-      return 'Wolf, bullet -1, gold +1'
+      return 'Wolf, bullet -2, gold +1'
     }
   }, {
     name: 'sickness',
-    frequency: 0.1,
     callback: function (player) {
       player.decrementLife(2)
       return 'Sickness life -2'
     }
+  }, {
+    name: 'indian',
+    callback: function (player) {
+      player.decrementGold(2)
+      return 'Indian -2 gold'
+    }
+  }, {
+    name: 'bear',
+    callback: function (player) {
+      if (player.bullets < 3) {
+        player.decrementLife(4)
+        return 'Bear, not enough bullets to kill it life -4'
+      }
+      player.decrementBullets(4)
+      player.incrementGold(2)
+      return 'Bear, bullet -4, gold +2'
+    }
+  }
+]
+
+const firstLevelCards = [
+  {
+    name: 'trade',
+    frequency: 0.2
+  }, {
+    name: 'rabbit',
+    frequency: 0.3
+  }, {
+    name: 'bullet',
+    frequency: 0.2
+  }, {
+    name: 'wolf',
+    frequency: 0.2
+  }, {
+    name: 'bear',
+    frequency: 0.2
+  }, {
+    name: 'sickness',
+    frequency: 0.1
   }
 ]
 
@@ -90,12 +124,13 @@ const thirdLevelCards = [
 
 function random (cards) {
   let rand = Math.random()
-  return cards.find(c => {
-      if (c.frequency > rand) {
-        return true
-      }
-      rand = rand - c.frequency
-  })
+  const name = cards.find(c => {
+    if (c.frequency > rand) {
+      return true
+    }
+    rand = rand - c.frequency
+  }).name
+  return allCards.find(c => c.name === name)
 }
 
 function getFirstLevelCard () {
