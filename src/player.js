@@ -38,17 +38,6 @@ export default class Player {
   right () {
     this.pos.col++
   }
-  getTilesMove () {
-    const curLine = this.pos.line
-    const curCol = this.pos.col
-    let allTiles = [
-      {line: curLine - 1, col: curCol},
-      {line: curLine + 1, col: curCol},
-      {line: curLine, col: curCol - 1},
-      {line: curLine, col: curCol + 1}
-    ]
-    return allTiles
-  }
   incrementLife (nb) {
     this.life = this.life + nb
   }

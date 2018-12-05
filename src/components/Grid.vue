@@ -3,7 +3,7 @@
     <table>
       <tr v-for="lineId in 5" :key="lineId">
         <td v-for="colId in 7" :key="colId">
-          <tile></tile>
+          <tile :line="lineId" :col="colId"></tile>
         </td>
       </tr>
     </table>
