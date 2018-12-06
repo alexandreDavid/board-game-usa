@@ -19,13 +19,12 @@ const allCards = [
   }, {
     name: 'wolf',
     callback: function (player) {
-      if (player.bullets < 2) {
-        player.decrementLife(2)
-        return 'Wolf, not enough bullets to kill it life -2'
-      }
-      player.decrementBullets(2)
-      player.incrementGold(1)
-      return 'Wolf, bullet -2, gold +1'
+      return player.setAction('animals', {
+        bullets: -2,
+        gold: 1
+      }, {
+        life: -2
+      }) ? 'Wolf, bullet -2, gold +1' : 'Wolf, not enough bullets to kill it life -2'
     }
   }, {
     name: 'sickness',

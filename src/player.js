@@ -14,6 +14,7 @@ export default class Player {
   gold = initialGold
   maxLife = maxLife
   maxBullets = maxBullets
+  bonus = {}
   constructor (name, pos, color) {
     this.name = name
     this.pos = pos
@@ -45,15 +46,61 @@ export default class Player {
     this.life = this.life - nb
   }
   incrementBullets (nb) {
-    this.bullets = this.life + nb
+    this.bullets = this.bullets + nb
   }
   decrementBullets (nb) {
-    this.bullets = this.life - nb
+    this.bullets = this.bullets - nb
   }
   incrementGold (nb) {
-    this.gold = this.life + nb
+    this.gold = this.gold + nb
   }
   decrementGold (nb) {
-    this.gold = this.life - nb
+    this.gold = this.gold - nb
+  }
+  addBonus (card) {
+    this.bonus[card.type] = this.bonus[card.type] || {}
+    this.bonus[card.type] = Object.assign(this.bonus[card.type], card.bonus)
+  }
+  getBonus (type) {
+    return this.bonus[type] || {}
+  }
+  setAction (type, enough, notEnough) {
+    let that = this
+    function checkObj (obj, bonus) {
+      let newObj = {
+        bullets: 0,
+        life: 0,
+        gold: 0
+      }
+      if (obj.bullets) {
+        newObj.bullets = obj.bullets + (bonus.bullets || 0)
+        if ((newObj.bullets + that.bullets) < 0 ) {
+          return false
+        }
+      }
+      if (obj.life) {
+        newObj.life = obj.life + (bonus.life || 0)
+        if ((newObj.life + that.life) < 1) {
+          return false
+        }
+      }
+      if (obj.gold) {
+        newObj.gold = obj.gold + (bonus.gold || 0)
+        if ((newObj.gold + that.gold) < 0) {
+          return false
+        }
+      }
+      that.bullets = that.bullets + newObj.bullets
+      that.life = that.life + newObj.life
+      that.gold = that.gold + newObj.gold
+      return true
+    }
+    let bonus = this.getBonus(type)
+    return checkObj(enough, bonus) || (checkObj(notEnough, bonus) ? false : this.setDeath())
+  }
+  setDeath () {
+    this.bullets = -1
+    this.life = -1
+    this.gold = -1
   }
 }

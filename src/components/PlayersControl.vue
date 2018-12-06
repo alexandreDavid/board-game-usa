@@ -7,7 +7,7 @@
         <div>Bullets number: {{ player.bullets }}</div>
         <div>Gold: {{ player.gold }}</div>
       </div>
-      <div v-if="activePlayerIdx === key">
+      <div v-if="activePlayerIdx === key && !activeTrade">
         <span>Actions left: {{ actionsLeft }} </span>
         <button @click="setAction('up')">Up</button>
         <button @click="setAction('left')">Left</button>
@@ -15,7 +15,17 @@
         <button @click="setAction('right')">Right</button>
         <button>Build camp</button>
         <button>Dig</button>
-        <button>Stay</button>
+        <button @click="finishActions">Stay</button>
+      </div>
+      <div v-if="activePlayerIdx === key && activeTrade" class="trade">
+        <h4>TRADE</h4>
+        <div class="trade-card" v-for="(tradeCard, key) in tradeCards" :key="key">
+          <h5>{{ tradeCard.name }}</h5>
+          <div>{{ tradeCard.text }}</div>
+          <div>Cost: {{ tradeCard.price }}</div>
+          <button @click="buyTrade(tradeCard)">Buy</button>
+        </div>
+        <button @click="changePlayer">End trade</button>
       </div>
     </div>
     <ul class="actions-history">
@@ -28,6 +38,7 @@
 
 <script>
 import EndTourCard from '@/endTourCard'
+import TradeCards from '@/tradeCards'
 
 const actionsPerTour = 3
 
@@ -40,7 +51,9 @@ export default {
     return {
       activePlayerIdx: 0,
       actionsLeft: actionsPerTour,
-      endTourHistory: []
+      endTourHistory: [],
+      activeTrade: false,
+      tradeCards: []
     }
   },
   methods: {
@@ -66,12 +79,25 @@ export default {
     },
     finishActions () {
       const card = EndTourCard.getCard(this.players[this.activePlayerIdx])
+      const endTourAction = card.callback(this.players[this.activePlayerIdx])
       this.endTourHistory.push({
         player: this.players[this.activePlayerIdx].name,
-        action: card.callback(this.players[this.activePlayerIdx])
+        action: endTourAction
       })
+      if (endTourAction === 'Trade') {
+        this.tradeCards = TradeCards.getCards(3)
+        this.activeTrade = true
+      } else {
+        this.changePlayer()
+      }
+    },
+    changePlayer () {
+      this.activeTrade = false
       this.actionsLeft = actionsPerTour
       this.activePlayerIdx = (this.activePlayerIdx === this.players.length - 1) ? 0 : this.activePlayerIdx + 1
+    },
+    buyTrade (card) {
+      this.players[this.activePlayerIdx].addBonus(card)
     }
   }
 }
@@ -85,5 +111,16 @@ export default {
 
 .active {
   background-color: yellow;
+}
+
+.trade {
+  background-color: red;
+  padding: 1rem
+}
+.trade-card {
+  background-color: white;
+  padding: 1rem;
+  margin: 1rem;
+  display: inline-block;
 }
 </style>
