@@ -19,12 +19,13 @@ const allCards = [
   }, {
     name: 'wolf',
     callback: function (player) {
-      return player.setAction('animals', {
+      const val = player.setAction('animals', {
         bullets: -2,
         gold: 1
       }, {
         life: -2
-      }) ? 'Wolf, bullet -2, gold +1' : 'Wolf, not enough bullets to kill it life -2'
+      })
+      return val.bullets ? `Wolf, bullet ${val.bullets}, gold +${val.gold}` : `Wolf, not enough bullets to kill it life ${val.life}`
     }
   }, {
     name: 'sickness',
@@ -55,19 +56,16 @@ const allCards = [
 const firstLevelCards = [
   {
     name: 'trade',
-    frequency: 0.2
+    frequency: 0.5
   }, {
     name: 'rabbit',
-    frequency: 0.3
+    frequency: 0
   }, {
     name: 'bullet',
-    frequency: 0.2
+    frequency: 0
   }, {
     name: 'wolf',
-    frequency: 0.2
-  }, {
-    name: 'bear',
-    frequency: 0.2
+    frequency: 0.5
   }, {
     name: 'sickness',
     frequency: 0.1

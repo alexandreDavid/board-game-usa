@@ -64,7 +64,7 @@ export default class Player {
   getBonus (type) {
     return this.bonus[type] || {}
   }
-  setAction (type, enough, notEnough) {
+  setAction (type, enough, notEnough = {}) {
     let that = this
     function checkObj (obj, bonus) {
       let newObj = {
@@ -93,10 +93,12 @@ export default class Player {
       that.bullets = that.bullets + newObj.bullets
       that.life = that.life + newObj.life
       that.gold = that.gold + newObj.gold
-      return true
+      console.log(newObj)
+      return newObj
+
     }
     let bonus = this.getBonus(type)
-    return checkObj(enough, bonus) || (checkObj(notEnough, bonus) ? false : this.setDeath())
+    return checkObj(enough, bonus) || checkObj(notEnough, bonus) || this.setDeath()
   }
   setDeath () {
     this.bullets = -1

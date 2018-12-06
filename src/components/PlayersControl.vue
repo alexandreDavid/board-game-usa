@@ -6,6 +6,7 @@
         <div>Life points: {{ player.life }}</div>
         <div>Bullets number: {{ player.bullets }}</div>
         <div>Gold: {{ player.gold }}</div>
+        <div>Bonus: {{ player.bonus }}</div>
       </div>
       <div v-if="activePlayerIdx === key && !activeTrade">
         <span>Actions left: {{ actionsLeft }} </span>

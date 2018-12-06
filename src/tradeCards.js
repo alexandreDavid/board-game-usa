@@ -15,6 +15,10 @@ const allCards = [
     name: 'digger',
     price: 2,
     text: '+1 gold per dig',
+    type: 'dig',
+    bonus: {
+      gold: 1
+    },
     frequency: 1
   },
   {
@@ -23,7 +27,7 @@ const allCards = [
     text: '-1 bullit for animals',
     type: 'animals',
     bonus: {
-      bullits: -1
+      bullets: 1
     },
     frequency: 1
   },
@@ -33,7 +37,7 @@ const allCards = [
     text: '-1 bullit for men',
     type: 'men',
     bonus: {
-      bullits: -1
+      bullets: 1
     },
     frequency: 1
   },
@@ -41,6 +45,10 @@ const allCards = [
     name: 'negociator',
     price: 2,
     text: '-1 cost per trade card',
+    type: 'trade',
+    bonus: {
+      gold: -1
+    },
     frequency: 1
   }
 ]
